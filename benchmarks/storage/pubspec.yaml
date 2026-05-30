@@ -1,0 +1,29 @@
+name: benchmarks_storage
+publish_to: none
+
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  json_annotation: ^4.9.0
+  rift: any
+  hive: ^4.0.0-dev.2
+  isar: ^4.0.0-dev.14
+  csv: ^8.0.0
+  meta: ^1.14.0
+
+dev_dependencies:
+  lints: ^4.0.0
+  build_runner: ^2.5.4
+  json_serializable: ^6.8.0
+  rift_generator: any
+
+dependency_overrides:
+  rift:
+    path: ../../rift
+  rift_generator:
+    path: ../../rift_generator
+  build: ^4.0.0
+  source_gen: ^4.0.0
+  analyzer: ^8.0.0
+

@@ -1,0 +1,35 @@
+name: rift_inspector
+description: DevTools inspector for Rift — visually browse, query, and edit your database at runtime.
+version: 1.0.0
+homepage: https://github.com/idris-ghamid/rift/tree/main/rift_inspector
+
+topics:
+  - database
+  - nosql
+  - storage
+  - devtools
+  - inspector
+
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  desktop_drop: ^0.7.0
+  rift: ^1.0.0
+  two_dimensional_scrollables: ^0.5.2
+  vm_service: ^15.0.0
+  yaml: ^3.1.3
+  devtools_extensions: ^0.5.0
+  devtools_app_shared: ^0.5.0
+  dtd: ^4.0.0
+
+dev_dependencies:
+  lints: ^4.0.0
+  rift_flutter: ^1.0.0
+  test: ^1.26.3
+
+flutter:
+  uses-material-design: true
+

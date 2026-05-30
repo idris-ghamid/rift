@@ -1,0 +1,12 @@
+name: rift
+
+environment:
+  sdk: ^3.4.0
+
+dependencies:
+  rift: any
+
+dependency_overrides:
+  rift:
+    path: ../../rift
+

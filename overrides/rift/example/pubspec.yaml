@@ -1,0 +1,15 @@
+name: rift_override_example
+
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  rift: any
+  rift: any
+
+dependency_overrides:
+  rift:
+    path: ../../../rift
+  rift:
+    path: ..
+

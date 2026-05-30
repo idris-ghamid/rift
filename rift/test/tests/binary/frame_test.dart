@@ -1,0 +1,68 @@
+import 'package:rift/src/binary/frame.dart';
+import 'package:test/test.dart';
+
+import '../common.dart';
+
+void main() {
+  group('Frame', () {
+    group('constructors verifies', () {
+      test('int keys', () {
+        Frame(0, null);
+        Frame.lazy(0);
+        Frame.deleted(0);
+
+        Frame(4294967295, null);
+        Frame.lazy(4294967295);
+        Frame.deleted(4294967295);
+
+        expect(() => Frame(-1, null), throwsRiftError());
+        expect(() => Frame.lazy(-1), throwsRiftError());
+        expect(() => Frame.deleted(-1), throwsRiftError());
+
+        expect(() => Frame(4294967296, null), throwsRiftError());
+        expect(() => Frame.lazy(4294967296), throwsRiftError());
+        expect(() => Frame.deleted(4294967296), throwsRiftError());
+      });
+
+      test('string keys', () {
+        Frame('', null);
+        Frame.lazy('');
+        Frame.deleted('');
+
+        Frame('a' * 255, null);
+        Frame.lazy('a' * 255);
+        Frame.deleted('a' * 255);
+
+        Frame('hellö', null);
+        Frame.lazy('hellö');
+        Frame.deleted('hellö');
+
+        expect(() => Frame('a' * 256, null), throwsRiftError());
+        expect(() => Frame.lazy('a' * 256), throwsRiftError());
+        expect(() => Frame.deleted('a' * 256), throwsRiftError());
+      });
+
+      test('non int or string keys', () {
+        expect(() => Frame(true, null), throwsRiftError());
+        expect(() => Frame(Object(), null), throwsRiftError());
+        expect(() => Frame(() => 0, null), throwsRiftError());
+        expect(() => Frame(Frame('test', null), null), throwsRiftError());
+      });
+    });
+
+    test('.toString()', () {
+      expect(
+        Frame('key', 'val', offset: 1, length: 2).toString(),
+        'Frame(key: key, value: val, length: 2, offset: 1)',
+      );
+      expect(
+        Frame.lazy('key', offset: 1, length: 2).toString(),
+        'Frame.lazy(key: key, length: 2, offset: 1)',
+      );
+      expect(
+        Frame.deleted('key', length: 2).toString(),
+        'Frame.deleted(key: key, length: 2)',
+      );
+    });
+  });
+}

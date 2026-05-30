@@ -1,0 +1,22 @@
+import 'package:rift/rift.dart';
+import 'package:rift/src/binary/frame.dart';
+
+/// Adapter for BigInt
+class BigIntAdapter extends TypeAdapter<BigInt> {
+  @override
+  final typeId = FrameValueType.bigInt;
+
+  @override
+  BigInt read(BinaryReader reader) {
+    final len = reader.readByte();
+    final intStr = reader.readString(len);
+    return BigInt.parse(intStr);
+  }
+
+  @override
+  void write(BinaryWriter writer, BigInt obj) {
+    final intStr = obj.toString();
+    writer.writeByte(intStr.length);
+    writer.writeString(intStr, writeByteCount: false);
+  }
+}

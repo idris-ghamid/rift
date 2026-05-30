@@ -1,0 +1,14 @@
+include: package:lints/recommended.yaml
+
+analyzer:
+  errors:
+    invalid_use_of_visible_for_testing_member: ignore
+    invalid_use_of_protected_member: ignore
+    unused_local_variable: ignore
+    unused_field: ignore
+    include_file_not_found: ignore
+    deprecated_member_use: ignore
+    unnecessary_getters_setters: ignore
+    library_private_types_in_public_api: ignore
+    prefer_initializing_formals: ignore
+    non_constant_identifier_names: ignore

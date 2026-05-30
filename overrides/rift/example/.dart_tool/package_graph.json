@@ -1,0 +1,78 @@
+{
+  "roots": [
+    "hive_override_example"
+  ],
+  "packages": [
+    {
+      "name": "hive_override_example",
+      "version": "0.0.0",
+      "dependencies": [
+        "hive",
+        "rift"
+      ],
+      "devDependencies": []
+    },
+    {
+      "name": "hive",
+      "version": "0.0.0",
+      "dependencies": [
+        "rift"
+      ]
+    },
+    {
+      "name": "rift",
+      "version": "1.0.0",
+      "dependencies": [
+        "crypto",
+        "isolate_channel",
+        "json_annotation",
+        "meta",
+        "web"
+      ]
+    },
+    {
+      "name": "json_annotation",
+      "version": "4.12.0",
+      "dependencies": [
+        "meta"
+      ]
+    },
+    {
+      "name": "isolate_channel",
+      "version": "0.6.1",
+      "dependencies": [
+        "meta"
+      ]
+    },
+    {
+      "name": "web",
+      "version": "1.1.1",
+      "dependencies": []
+    },
+    {
+      "name": "crypto",
+      "version": "3.0.7",
+      "dependencies": [
+        "typed_data"
+      ]
+    },
+    {
+      "name": "meta",
+      "version": "1.18.2",
+      "dependencies": []
+    },
+    {
+      "name": "typed_data",
+      "version": "1.4.0",
+      "dependencies": [
+        "collection"
+      ]
+    },
+    {
+      "name": "collection",
+      "version": "1.19.1",
+      "dependencies": []
+    }
+  ],
+  "configVersion": 1
+}

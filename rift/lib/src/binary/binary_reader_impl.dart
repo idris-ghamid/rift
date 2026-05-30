@@ -1,0 +1,446 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:rift/rift.dart';
+import 'package:rift/src/binary/frame.dart';
+import 'package:rift/src/crypto/crc32.dart';
+import 'package:rift/src/object/rift_list_impl.dart';
+import 'package:rift/src/registry/type_registry_impl.dart';
+import 'package:rift/src/util/extensions.dart';
+import 'package:rift/src/util/logger.dart';
+import 'package:meta/meta.dart';
+
+/// Not part of public API
+class BinaryReaderImpl extends BinaryReader {
+  final Uint8List _buffer;
+  final ByteData _byteData;
+  final int _bufferLength;
+  final TypeRegistryImpl _typeRegistry;
+
+  int _bufferLimit;
+  var _offset = 0;
+
+  var _crcRecomputeWarningPrinted = false;
+
+  /// Not part of public API
+  BinaryReaderImpl(this._buffer, TypeRegistry typeRegistry, [int? bufferLength])
+    : _byteData = ByteData.view(_buffer.buffer, _buffer.offsetInBytes),
+      _bufferLength = bufferLength ?? _buffer.length,
+      _bufferLimit = bufferLength ?? _buffer.length,
+      _typeRegistry = typeRegistry as TypeRegistryImpl;
+
+  @pragma('vm:prefer-inline')
+  @pragma('dart2js:tryInline')
+  @override
+  int get availableBytes => _bufferLimit - _offset;
+
+  @override
+  int get usedBytes => _offset;
+
+  void _limitAvailableBytes(int bytes) {
+    _requireBytes(bytes);
+    _bufferLimit = _offset + bytes;
+  }
+
+  void _resetLimit() {
+    _bufferLimit = _bufferLength;
+  }
+
+  @pragma('vm:prefer-inline')
+  @pragma('dart2js:tryInline')
+  void _requireBytes(int bytes) {
+    if (_offset + bytes > _bufferLimit) {
+      throw RangeError('Not enough bytes available.');
+    }
+  }
+
+  @pragma('vm:prefer-inline')
+  @pragma('dart2js:tryInline')
+  @override
+  void skip(int bytes) {
+    _requireBytes(bytes);
+    _offset += bytes;
+  }
+
+  @pragma('vm:prefer-inline')
+  @pragma('dart2js:tryInline')
+  @override
+  int readByte() {
+    _requireBytes(1);
+    return _buffer[_offset++];
+  }
+
+  @pragma('vm:prefer-inline')
+  @pragma('dart2js:tryInline')
+  @override
+  Uint8List viewBytes(int bytes) {
+    _requireBytes(bytes);
+    _offset += bytes;
+    return _buffer.view(_offset - bytes, bytes);
+  }
+
+  @override
+  Uint8List peekBytes(int bytes) {
+    _requireBytes(bytes);
+    return _buffer.view(_offset, bytes);
+  }
+
+  @override
+  int readWord() {
+    _requireBytes(2);
+    return _buffer[_offset++] | _buffer[_offset++] << 8;
+  }
+
+  @override
+  int readInt32() {
+    _requireBytes(4);
+    _offset += 4;
+    return _byteData.getInt32(_offset - 4, Endian.little);
+  }
+
+  @pragma('vm:prefer-inline')
+  @pragma('dart2js:tryInline')
+  @override
+  int readUint32() {
+    _requireBytes(4);
+    _offset += 4;
+    return _buffer.readUint32(_offset - 4);
+  }
+
+  /// Not part of public API
+  int peekUint32() {
+    _requireBytes(4);
+    return _buffer.readUint32(_offset);
+  }
+
+  @override
+  int readInt() {
+    // Read varint + ZigZag encoded integer (new format)
+    return _decodeZigZag(_readVarint());
+  }
+
+  /// Read a legacy integer stored as float64 (backward compatibility).
+  /// Legacy Rift files stored integers as 8-byte float64 values.
+  int _readIntLegacy() {
+    return readDouble().toInt();
+  }
+
+  /// Decode a ZigZag-encoded unsigned integer back to a signed integer.
+  /// - 0 → 0, 1 → -1, 2 → 1, 3 → -2, 4 → 2, ...
+  int _decodeZigZag(int n) {
+    return (n >>> 1) ^ -(n & 1);
+  }
+
+  /// Read an unsigned integer encoded as varint.
+  /// Each byte stores 7 bits of data; the MSB is a continuation flag.
+  int _readVarint() {
+    int result = 0;
+    int shift = 0;
+    int byte;
+    do {
+      byte = readByte();
+      result |= (byte & 0x7F) << shift;
+      shift += 7;
+    } while (byte & 0x80 != 0);
+    return result;
+  }
+
+  @override
+  double readDouble() {
+    _requireBytes(8);
+    final value = _byteData.getFloat64(_offset, Endian.little);
+    _offset += 8;
+    return value;
+  }
+
+  @override
+  bool readBool() {
+    return readByte() > 0;
+  }
+
+  @override
+  String readString([
+    int? byteCount,
+    Converter<List<int>, String> decoder = BinaryReader.utf8Decoder,
+  ]) {
+    byteCount ??= readUint32();
+    final view = viewBytes(byteCount);
+    return decoder.convert(view);
+  }
+
+  @override
+  Uint8List readByteList([int? length]) {
+    length ??= readUint32();
+    _requireBytes(length);
+    final byteList = _buffer.sublist(_offset, _offset + length);
+    _offset += length;
+    return byteList;
+  }
+
+  @override
+  List<int> readIntList([int? length]) {
+    length ??= readUint32();
+    final list = List<int>.filled(length, 0, growable: true);
+    for (var i = 0; i < length; i++) {
+      list[i] = readInt(); // Uses varint + ZigZag decoding
+    }
+    return list;
+  }
+
+  @override
+  List<double> readDoubleList([int? length]) {
+    length ??= readUint32();
+    _requireBytes(length * 8);
+    final byteData = _byteData;
+    final list = List<double>.filled(length, 0, growable: true);
+    for (var i = 0; i < length; i++) {
+      list[i] = byteData.getFloat64(_offset, Endian.little);
+      _offset += 8;
+    }
+    return list;
+  }
+
+  @override
+  List<bool> readBoolList([int? length]) {
+    length ??= readUint32();
+    _requireBytes(length);
+    final list = List<bool>.filled(length, false, growable: true);
+    for (var i = 0; i < length; i++) {
+      list[i] = _buffer[_offset++] > 0;
+    }
+    return list;
+  }
+
+  @override
+  List<String> readStringList([
+    int? length,
+    Converter<List<int>, String> decoder = BinaryReader.utf8Decoder,
+  ]) {
+    length ??= readUint32();
+    final list = List<String>.filled(length, '', growable: true);
+    for (var i = 0; i < length; i++) {
+      list[i] = readString(null, decoder);
+    }
+    return list;
+  }
+
+  @override
+  List readList([int? length]) {
+    length ??= readUint32();
+    final list = List<dynamic>.filled(length, null, growable: true);
+    for (var i = 0; i < length; i++) {
+      list[i] = read();
+    }
+    return list;
+  }
+
+  @override
+  Map readMap([int? length]) {
+    length ??= readUint32();
+    final map = <dynamic, dynamic>{};
+    for (var i = 0; i < length; i++) {
+      map[read()] = read();
+    }
+    return map;
+  }
+
+  /// Not part of public API
+  dynamic readKey() {
+    final keyType = readByte();
+    if (keyType == FrameKeyType.uintT) {
+      return readUint32();
+    } else if (keyType == FrameKeyType.utf8StringT) {
+      final byteCount = readByte();
+      return BinaryReader.utf8Decoder.convert(viewBytes(byteCount));
+    } else {
+      throw RiftError('Unsupported key type. Frame might be corrupted.');
+    }
+  }
+
+  @override
+  RiftList readRiftList([int? length]) {
+    length ??= readUint32();
+    final boxNameLength = readByte();
+    final boxName = String.fromCharCodes(viewBytes(boxNameLength));
+    final keys = List<dynamic>.filled(length, null, growable: true);
+    for (var i = 0; i < length; i++) {
+      keys[i] = readKey();
+    }
+
+    return RiftListImpl.lazy(boxName, keys);
+  }
+
+  /// Read a type ID and handle extension
+  @pragma('vm:prefer-inline')
+  @pragma('dart2js:tryInline')
+  @visibleForTesting
+  int readTypeId() {
+    final typeId = readByte();
+    if (typeId == FrameValueType.typeIdExtension) {
+      return readWord();
+    } else {
+      return typeId;
+    }
+  }
+
+  /// Not part of public API
+  Frame? readFrame({
+    RiftCipher? cipher,
+    int? keyCrc,
+    bool lazy = false,
+    int frameOffset = 0,
+    bool verbatim = false,
+  }) {
+    // frame length is stored on 4 bytes
+    if (availableBytes < 4) return null;
+
+    // frame length should be at least 8 bytes
+    final frameLength = readUint32();
+    if (frameLength < 8) return null;
+
+    // frame is bigger than avaible bytes
+    if (availableBytes < frameLength - 4) return null;
+
+    final crc = _buffer.readUint32(_offset + frameLength - 8);
+    final crcOffset = _offset - 4;
+    final crcLength = frameLength - 4;
+    final computedCrc = Crc32.compute(
+      _buffer,
+      offset: crcOffset,
+      length: crcLength,
+      crc: keyCrc ?? cipher?.calculateKeyCrc() ?? 0,
+    );
+
+    // frame is corrupted or provided chiper is different
+    if (computedCrc != crc) {
+      if (keyCrc != null) {
+        // Attempt to compute the crc without the key crc
+        // This maintains compatibility with data written by IsolatedRift before keyCrc was introduced
+        final computedCrc2 = Crc32.compute(
+          _buffer,
+          offset: crcOffset,
+          length: crcLength,
+        );
+        if (computedCrc2 != crc) return null;
+
+        if (Logger.crcRecomputeWarning && !_crcRecomputeWarningPrinted) {
+          Logger.w(RiftWarning.crcRecomputeNeeded);
+          _crcRecomputeWarningPrinted = true;
+        }
+      } else {
+        return null;
+      }
+    }
+
+    _limitAvailableBytes(frameLength - 8);
+    Frame frame;
+    final dynamic key = readKey();
+
+    if (availableBytes == 0) {
+      frame = Frame.deleted(key);
+    } else if (lazy) {
+      frame = Frame.lazy(key);
+    } else if (verbatim) {
+      frame = Frame(key, viewBytes(availableBytes));
+    } else if (cipher == null) {
+      frame = Frame(key, read());
+    } else {
+      frame = Frame(key, readEncrypted(cipher));
+    }
+
+    frame
+      ..length = frameLength
+      ..offset = frameOffset;
+
+    skip(availableBytes);
+    _resetLimit();
+    skip(4); // Skip CRC
+
+    return frame;
+  }
+
+  /// Read [length] bytes from the buffer
+  Uint8List readBytes(int length) {
+    _requireBytes(length);
+    final bytes = _buffer.sublist(_offset, _offset + length);
+    _offset += length;
+    return bytes;
+  }
+
+  @override
+  dynamic read([int? typeId]) {
+    typeId ??= readTypeId();
+    switch (typeId) {
+      case FrameValueType.nullT:
+        return null;
+      case FrameValueType.intT:
+        return _readIntLegacy(); // Backward compat: old float64 format
+      case FrameValueType.intVarintT:
+        return readInt(); // New varint + ZigZag format
+      case FrameValueType.doubleT:
+        return readDouble();
+      case FrameValueType.boolT:
+        return readBool();
+      case FrameValueType.stringT:
+        return readString();
+      case FrameValueType.byteListT:
+        return readByteList();
+      case FrameValueType.intListT:
+        return readIntList();
+      case FrameValueType.doubleListT:
+        return readDoubleList();
+      case FrameValueType.boolListT:
+        return readBoolList();
+      case FrameValueType.stringListT:
+        return readStringList();
+      case FrameValueType.listT:
+        return readList();
+      case FrameValueType.mapT:
+        return readMap();
+      case FrameValueType.riftListT:
+        return readRiftList();
+      case FrameValueType.intSetT:
+        return readIntList().toSet();
+      case FrameValueType.doubleSetT:
+        return readDoubleList().toSet();
+      case FrameValueType.stringSetT:
+        return readStringList().toSet();
+      case FrameValueType.setT:
+        return readList().toSet();
+      default:
+        final resolved = _typeRegistry.findAdapterForTypeId(typeId);
+        if (resolved == null) {
+          throw RiftError('''
+Cannot read, unknown typeId: $typeId. Did you forget to register an adapter?
+
+If you recently migrated to the GenerateAdapters annotation, make sure to follow
+the migration guide:
+https://github.com/idris-ghamid/rift/blob/main/MIGRATION.md#generate-adapters
+
+If this type ID has never existed in your project, this is box corruption.
+There is no way to automatically recover from this. If you are using Rift in
+multiple isolates, replace all Rift calls in your project with calls to
+IsolatedRift to prevent this in the future. Examples of isolate usage include:
+- Flutter multi-window
+- flutter_workmanager
+- background_fetch
+- Push notification processing (firebase_cloud_messaging, etc.)
+''');
+        }
+        return resolved.adapter.read(this);
+    }
+  }
+
+  /// Not part of public API
+  @pragma('vm:prefer-inline')
+  @pragma('dart2js:tryInline')
+  dynamic readEncrypted(RiftCipher cipher) {
+    final inpLength = availableBytes;
+    final out = Uint8List(inpLength);
+    final outLength = cipher.decrypt(_buffer, _offset, inpLength, out, 0);
+    _offset += inpLength;
+
+    final valueReader = BinaryReaderImpl(out, _typeRegistry, outLength);
+    return valueReader.read();
+  }
+}

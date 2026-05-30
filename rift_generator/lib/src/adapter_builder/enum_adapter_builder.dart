@@ -1,0 +1,48 @@
+import 'package:rift_generator/src/adapter_builder/adapter_builder.dart';
+
+class EnumAdapterBuilder extends AdapterBuilder {
+  const EnumAdapterBuilder(super.cls, super.getters);
+
+  @override
+  String buildRead() {
+    if (getters.isEmpty) {
+      throw '${cls.displayName} does not have any enum value.';
+    }
+
+    final code = StringBuffer();
+    code.writeln('switch (reader.readByte()) {');
+
+    for (final field in getters) {
+      code.writeln('''
+        case ${field.index}:
+          return ${cls.displayName}.${field.name};''');
+    }
+
+    final defaultField = getters.firstWhere(
+      (it) => it.annotationDefault?.toBoolValue() == true,
+      orElse: () => getters.first,
+    );
+    code.writeln('''
+      default:
+        return ${cls.displayName}.${defaultField.name};
+      }''');
+
+    return code.toString();
+  }
+
+  @override
+  String buildWrite() {
+    final code = StringBuffer();
+    code.writeln('switch (obj) {');
+
+    for (final field in getters) {
+      code.writeln('''
+        case ${cls.displayName}.${field.name}:
+          writer.writeByte(${field.index});''');
+    }
+
+    code.writeln('}');
+
+    return code.toString();
+  }
+}

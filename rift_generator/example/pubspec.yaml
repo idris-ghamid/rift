@@ -1,0 +1,17 @@
+name: example
+dependencies:
+  rift: any
+  meta: ^1.14.0
+dev_dependencies:
+  lints: ^4.0.0
+  build_runner: ^2.5.4
+  rift_generator:
+    path: ..
+environment:
+  sdk: ^3.9.0
+dependency_overrides:
+  rift:
+    path: ../../rift
+  rift_generator:
+    path: ..
+

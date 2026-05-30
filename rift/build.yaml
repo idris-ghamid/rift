@@ -1,0 +1,10 @@
+targets:
+  $default:
+    builders:
+      json_serializable:
+        enabled: true
+        options:
+          include_if_null: true
+    sources:
+      exclude:
+        - example/**

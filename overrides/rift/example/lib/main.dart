@@ -6,4 +6,3 @@ void main() async {
   box.put('key', 'value');
   print(box.get('key'));
 }
-

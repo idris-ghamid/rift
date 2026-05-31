@@ -507,6 +507,3 @@ class MockBinaryWriter extends _i2.Mock implements _i8.BinaryWriter {
         returnValueForMissingStub: null,
       );
 }
-
-
-

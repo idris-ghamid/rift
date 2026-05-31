@@ -393,4 +393,3 @@ class ZeroKeyCrcCipher extends RiftAesCipher {
   @override
   int calculateKeyCrc() => 0;
 }
-

@@ -66,5 +66,3 @@ abstract class BinaryWriter {
   /// Write any [value].
   void write<T>(T value, {bool withTypeId = true});
 }
-
-

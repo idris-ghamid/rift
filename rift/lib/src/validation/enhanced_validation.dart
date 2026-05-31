@@ -16,10 +16,7 @@ class AsyncFieldRule {
   /// Custom error message override.
   final String? message;
 
-  const AsyncFieldRule({
-    required this.asyncValidator,
-    this.message,
-  });
+  const AsyncFieldRule({required this.asyncValidator, this.message});
 
   /// Creates an async validation rule.
   ///
@@ -29,11 +26,7 @@ class AsyncFieldRule {
   factory AsyncFieldRule.async(
     Future<String?> Function(dynamic value) validator, {
     String? message,
-  }) =>
-      AsyncFieldRule(
-        asyncValidator: validator,
-        message: message,
-      );
+  }) => AsyncFieldRule(asyncValidator: validator, message: message);
 
   /// Validates a [value] asynchronously against this rule.
   ///
@@ -112,10 +105,7 @@ class EnhancedValidationResult extends ValidationResult {
   final List<AsyncValidationError> asyncErrors;
 
   /// Creates an [EnhancedValidationResult].
-  const EnhancedValidationResult(
-    super.errors,
-    this.asyncErrors,
-  );
+  const EnhancedValidationResult(super.errors, this.asyncErrors);
 
   /// Whether the data is valid (no errors).
   @override
@@ -145,8 +135,7 @@ class EnhancedSchemaValidator extends SchemaValidator {
   final EnhancedValidationSchema enhancedSchema;
 
   /// Creates an [EnhancedSchemaValidator] with the given [schema].
-  const EnhancedSchemaValidator(this.enhancedSchema)
-      : super(enhancedSchema);
+  const EnhancedSchemaValidator(this.enhancedSchema) : super(enhancedSchema);
 
   /// Validates [data] against the schema synchronously.
   ///
@@ -316,141 +305,130 @@ class EnhancedSchemaValidator extends SchemaValidator {
 class ValidationRules {
   /// Email validation rule.
   static FieldRule email({String? message}) => FieldRule.pattern(
-        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-        message: message ?? 'Invalid email address',
-      );
+    r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+    message: message ?? 'Invalid email address',
+  );
 
   /// URL validation rule.
   static FieldRule url({String? message}) => FieldRule.pattern(
-        r'^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$',
-        message: message ?? 'Invalid URL',
-      );
+    r'^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$',
+    message: message ?? 'Invalid URL',
+  );
 
   /// Phone number validation rule.
   static FieldRule phone({String? message}) => FieldRule.pattern(
-        r'^[\d\+\-\(\) ]+$',
-        message: message ?? 'Invalid phone number',
-      );
+    r'^[\d\+\-\(\) ]+$',
+    message: message ?? 'Invalid phone number',
+  );
 
   /// Credit card validation rule (Luhn algorithm).
-  static FieldRule creditCard({String? message}) => FieldRule.custom(
-        (value) {
-          if (value == null) return null;
-          if (value is! String) return 'Credit card must be a string';
-          final digits = value.replaceAll(RegExp(r'\D'), '');
-          if (digits.length < 13 || digits.length > 19) {
-            return 'Invalid credit card number';
-          }
-          // Luhn algorithm
-          var sum = 0;
-          var isEven = false;
-          for (var i = digits.length - 1; i >= 0; i--) {
-            var digit = int.parse(digits[i]);
-            if (isEven) {
-              digit *= 2;
-              if (digit > 9) digit -= 9;
-            }
-            sum += digit;
-            isEven = !isEven;
-          }
-          if (sum % 10 != 0) {
-            return 'Invalid credit card number';
-          }
-          return null;
-        },
-        message: message ?? 'Invalid credit card number',
-      );
+  static FieldRule creditCard({String? message}) => FieldRule.custom((value) {
+    if (value == null) return null;
+    if (value is! String) return 'Credit card must be a string';
+    final digits = value.replaceAll(RegExp(r'\D'), '');
+    if (digits.length < 13 || digits.length > 19) {
+      return 'Invalid credit card number';
+    }
+    // Luhn algorithm
+    var sum = 0;
+    var isEven = false;
+    for (var i = digits.length - 1; i >= 0; i--) {
+      var digit = int.parse(digits[i]);
+      if (isEven) {
+        digit *= 2;
+        if (digit > 9) digit -= 9;
+      }
+      sum += digit;
+      isEven = !isEven;
+    }
+    if (sum % 10 != 0) {
+      return 'Invalid credit card number';
+    }
+    return null;
+  }, message: message ?? 'Invalid credit card number');
 
   /// Password strength validation rule.
-  static FieldRule passwordStrength({String? message}) => FieldRule.custom(
-        (value) {
-          if (value == null) return null;
-          if (value is! String) return 'Password must be a string';
-          if (value.length < 8) {
-            return 'Password must be at least 8 characters';
-          }
-          if (!value.contains(RegExp(r'[A-Z]'))) {
-            return 'Password must contain at least one uppercase letter';
-          }
-          if (!value.contains(RegExp(r'[a-z]'))) {
-            return 'Password must contain at least one lowercase letter';
-          }
-          if (!value.contains(RegExp(r'[0-9]'))) {
-            return 'Password must contain at least one number';
-          }
-          if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-            return 'Password must contain at least one special character';
-          }
-          return null;
-        },
-        message: message ?? 'Password does not meet strength requirements',
-      );
+  static FieldRule passwordStrength({String? message}) =>
+      FieldRule.custom((value) {
+        if (value == null) return null;
+        if (value is! String) return 'Password must be a string';
+        if (value.length < 8) {
+          return 'Password must be at least 8 characters';
+        }
+        if (!value.contains(RegExp(r'[A-Z]'))) {
+          return 'Password must contain at least one uppercase letter';
+        }
+        if (!value.contains(RegExp(r'[a-z]'))) {
+          return 'Password must contain at least one lowercase letter';
+        }
+        if (!value.contains(RegExp(r'[0-9]'))) {
+          return 'Password must contain at least one number';
+        }
+        if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+          return 'Password must contain at least one special character';
+        }
+        return null;
+      }, message: message ?? 'Password does not meet strength requirements');
 
   /// Username validation rule.
   static FieldRule username({String? message}) => FieldRule.pattern(
-        r'^[a-zA-Z0-9_]{3,20}$',
-        message: message ?? 'Username must be 3-20 alphanumeric characters',
-      );
+    r'^[a-zA-Z0-9_]{3,20}$',
+    message: message ?? 'Username must be 3-20 alphanumeric characters',
+  );
 
   /// Date validation rule (YYYY-MM-DD).
   static FieldRule date({String? message}) => FieldRule.pattern(
-        r'^\d{4}-\d{2}-\d{2}$',
-        message: message ?? 'Invalid date format (YYYY-MM-DD)',
-      );
+    r'^\d{4}-\d{2}-\d{2}$',
+    message: message ?? 'Invalid date format (YYYY-MM-DD)',
+  );
 
   /// UUID validation rule.
   static FieldRule uuid({String? message}) => FieldRule.pattern(
-        r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
-        message: message ?? 'Invalid UUID format',
-      );
+    r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
+    message: message ?? 'Invalid UUID format',
+  );
 
   /// Hex color validation rule.
   static FieldRule hexColor({String? message}) => FieldRule.pattern(
-        r'^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$',
-        message: message ?? 'Invalid hex color format',
-      );
+    r'^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$',
+    message: message ?? 'Invalid hex color format',
+  );
 
   /// IP address validation rule.
   static FieldRule ipAddress({String? message}) => FieldRule.pattern(
-        r'^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$',
-        message: message ?? 'Invalid IP address',
-      );
+    r'^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$',
+    message: message ?? 'Invalid IP address',
+  );
 
   /// JSON validation rule (async).
-  static AsyncFieldRule json({String? message}) => AsyncFieldRule.async(
-        (value) async {
-          if (value == null) return null;
-          if (value is! String) return 'JSON must be a string';
-          try {
-            // Try to parse as JSON
-            // Note: This is a simple check, actual parsing would use jsonDecode
-            if (value.startsWith('{') || value.startsWith('[')) {
-              return null;
-            }
-            return 'Invalid JSON format';
-          } catch (e) {
-            return 'Invalid JSON format';
+  static AsyncFieldRule json({String? message}) =>
+      AsyncFieldRule.async((value) async {
+        if (value == null) return null;
+        if (value is! String) return 'JSON must be a string';
+        try {
+          // Try to parse as JSON
+          // Note: This is a simple check, actual parsing would use jsonDecode
+          if (value.startsWith('{') || value.startsWith('[')) {
+            return null;
           }
-        },
-        message: message ?? 'Invalid JSON format',
-      );
+          return 'Invalid JSON format';
+        } catch (e) {
+          return 'Invalid JSON format';
+        }
+      }, message: message ?? 'Invalid JSON format');
 
   /// Unique value validation rule (async).
   static AsyncFieldRule unique({
     required Future<bool> Function(dynamic value) checkUnique,
     String? message,
-  }) =>
-      AsyncFieldRule.async(
-        (value) async {
-          if (value == null) return null;
-          final isUnique = await checkUnique(value);
-          if (!isUnique) {
-            return message ?? 'Value must be unique';
-          }
-          return null;
-        },
-        message: message,
-      );
+  }) => AsyncFieldRule.async((value) async {
+    if (value == null) return null;
+    final isUnique = await checkUnique(value);
+    if (!isUnique) {
+      return message ?? 'Value must be unique';
+    }
+    return null;
+  }, message: message);
 }
 
 /// Pre-built cross-field validation rules.
@@ -460,88 +438,83 @@ class CrossFieldValidationRules {
     String passwordField = 'password',
     String confirmationField = 'passwordConfirmation',
     String? message,
-  }) =>
-      CrossFieldRule(
-        fields: [passwordField, confirmationField],
-        validator: (data) {
-          final password = data[passwordField];
-          final confirmation = data[confirmationField];
-          if (password != confirmation) {
-            return message ?? 'Passwords do not match';
-          }
-          return null;
-        },
-      );
+  }) => CrossFieldRule(
+    fields: [passwordField, confirmationField],
+    validator: (data) {
+      final password = data[passwordField];
+      final confirmation = data[confirmationField];
+      if (password != confirmation) {
+        return message ?? 'Passwords do not match';
+      }
+      return null;
+    },
+  );
 
   /// Date range validation rule.
   static CrossFieldRule dateRange({
     String startDateField = 'startDate',
     String endDateField = 'endDate',
     String? message,
-  }) =>
-      CrossFieldRule(
-        fields: [startDateField, endDateField],
-        validator: (data) {
-          final startDate = data[startDateField];
-          final endDate = data[endDateField];
-          if (startDate is DateTime && endDate is DateTime) {
-            if (startDate.isAfter(endDate)) {
-              return message ?? 'Start date must be before end date';
-            }
-          }
-          return null;
-        },
-      );
+  }) => CrossFieldRule(
+    fields: [startDateField, endDateField],
+    validator: (data) {
+      final startDate = data[startDateField];
+      final endDate = data[endDateField];
+      if (startDate is DateTime && endDate is DateTime) {
+        if (startDate.isAfter(endDate)) {
+          return message ?? 'Start date must be before end date';
+        }
+      }
+      return null;
+    },
+  );
 
   /// Numeric range validation rule.
   static CrossFieldRule numericRange({
     String minField = 'min',
     String maxField = 'max',
     String? message,
-  }) =>
-      CrossFieldRule(
-        fields: [minField, maxField],
-        validator: (data) {
-          final min = data[minField];
-          final max = data[maxField];
-          if (min is num && max is num) {
-            if (min > max) {
-              return message ?? 'Minimum value must be less than maximum value';
-            }
-          }
-          return null;
-        },
-      );
+  }) => CrossFieldRule(
+    fields: [minField, maxField],
+    validator: (data) {
+      final min = data[minField];
+      final max = data[maxField];
+      if (min is num && max is num) {
+        if (min > max) {
+          return message ?? 'Minimum value must be less than maximum value';
+        }
+      }
+      return null;
+    },
+  );
 
   /// At least one field required rule.
   static CrossFieldRule atLeastOneRequired({
     required List<String> fields,
     String? message,
-  }) =>
-      CrossFieldRule(
-        fields: fields,
-        validator: (data) {
-          final hasValue = fields.any((field) => data[field] != null);
-          if (!hasValue) {
-            return message ?? 'At least one of ${fields.join(', ')} is required';
-          }
-          return null;
-        },
-      );
+  }) => CrossFieldRule(
+    fields: fields,
+    validator: (data) {
+      final hasValue = fields.any((field) => data[field] != null);
+      if (!hasValue) {
+        return message ?? 'At least one of ${fields.join(', ')} is required';
+      }
+      return null;
+    },
+  );
 
   /// Mutually exclusive fields rule.
   static CrossFieldRule mutuallyExclusive({
     required List<String> fields,
     String? message,
-  }) =>
-      CrossFieldRule(
-        fields: fields,
-        validator: (data) {
-          final count = fields.where((field) => data[field] != null).length;
-          if (count > 1) {
-            return message ?? 'Only one of ${fields.join(', ')} can be set';
-          }
-          return null;
-        },
-      );
+  }) => CrossFieldRule(
+    fields: fields,
+    validator: (data) {
+      final count = fields.where((field) => data[field] != null).length;
+      if (count > 1) {
+        return message ?? 'Only one of ${fields.join(', ')} can be set';
+      }
+      return null;
+    },
+  );
 }

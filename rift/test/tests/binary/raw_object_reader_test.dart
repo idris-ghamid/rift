@@ -182,4 +182,3 @@ class TestEnumAdapter extends TypeAdapter<TestEnum> {
     writer.writeByte(obj.index);
   }
 }
-

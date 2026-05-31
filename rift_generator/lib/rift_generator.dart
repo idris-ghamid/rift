@@ -24,4 +24,3 @@ Builder getAdaptersBuilder(BuilderOptions options) =>
 /// Builds a Rift schema from existing RiftType annotations
 Builder getSchemaMigratorBuilder(BuilderOptions options) =>
     RiftSchemaMigratorBuilder();
-

@@ -125,6 +125,3 @@ GenerateAdapters annotation found in more than one file:
     });
   });
 }
-
-
-

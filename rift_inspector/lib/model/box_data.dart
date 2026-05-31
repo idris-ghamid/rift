@@ -22,4 +22,3 @@ class BoxData {
     loaded: loaded,
   );
 }
-

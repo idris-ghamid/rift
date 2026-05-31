@@ -82,5 +82,3 @@ class _BoxesLoaderState extends State<_BoxesLoader> {
     return ConnectedLayout(client: widget.client, boxes: boxes);
   }
 }
-
-

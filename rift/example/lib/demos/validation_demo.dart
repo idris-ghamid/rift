@@ -9,7 +9,8 @@ class ValidationDemoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return RiftDemoPage(
       title: 'Enhanced Validation',
-      description: 'Advanced validation with async rules, cross-field validation, and pre-built rules',
+      description:
+          'Advanced validation with async rules, cross-field validation, and pre-built rules',
       codeExample:
           "// Pre-built rules\nfinal schema = DataValidationSchema(fields: {\n  'email': [ValidationRules.email()],\n  'age': [ValidationRule.required(), ValidationRule.min(0), ValidationRule.max(150)],\n  'password': [ValidationRules.passwordStrength()],\n});\n\n// Async validation\nfinal enhancedSchema = EnhancedValidationSchema(\n  asyncRules: {'email': [ValidationRules.unique(checkUnique: ...)]},\n);\n\n// Cross-field validation\nfinal crossFieldSchema = EnhancedValidationSchema(\n  crossFieldRules: [CrossFieldValidationRules.passwordConfirmation()],\n);",
       runDemo: () async {
@@ -56,7 +57,8 @@ class ValidationDemoPage extends StatelessWidget {
 
         final invalidEmailTest = {'email': 'not-an-email'};
         final invalidEmailResult = preBuiltValidator.validate(invalidEmailTest);
-        buf.writeln('  Email "not-an-email": valid=${invalidEmailResult.isValid}');
+        buf.writeln(
+            '  Email "not-an-email": valid=${invalidEmailResult.isValid}');
         if (invalidEmailResult.isInvalid) {
           for (final e in invalidEmailResult.errors) {
             buf.writeln('    ❌ ${e.message}');
@@ -75,7 +77,8 @@ class ValidationDemoPage extends StatelessWidget {
 
         final strongPassword = {'password': 'Str0ngP@ss!123'};
         final strongResult = preBuiltValidator.validate(strongPassword);
-        buf.writeln('  Password "Str0ngP@ss!123": valid=${strongResult.isValid}');
+        buf.writeln(
+            '  Password "Str0ngP@ss!123": valid=${strongResult.isValid}');
 
         // Test UUID validation
         final validUuid = {'uuid': '550e8400-e29b-41d4-a716-446655440000'};
@@ -133,7 +136,8 @@ class ValidationDemoPage extends StatelessWidget {
           'email': 'existing@example.com',
           'username': 'taken_username',
         };
-        final duplicateResult = await enhancedValidator.validateAsync(duplicateData);
+        final duplicateResult =
+            await enhancedValidator.validateAsync(duplicateData);
         buf.writeln('  Duplicate data: valid=${duplicateResult.isValid}');
         if (duplicateResult.isInvalid) {
           for (final e in duplicateResult.asyncErrors) {
@@ -213,8 +217,10 @@ class ValidationDemoPage extends StatelessWidget {
         buf.writeln('  Valid numeric range: valid=${numericResult.isValid}');
 
         final invalidNumericData = {'min': 100, 'max': 0};
-        final invalidNumericResult = crossFieldValidator.validate(invalidNumericData);
-        buf.writeln('  Invalid numeric range: valid=${invalidNumericResult.isValid}');
+        final invalidNumericResult =
+            crossFieldValidator.validate(invalidNumericData);
+        buf.writeln(
+            '  Invalid numeric range: valid=${invalidNumericResult.isValid}');
         if (invalidNumericResult.isInvalid) {
           for (final e in invalidNumericResult.errors) {
             buf.writeln('    ❌ ${e.message}');
@@ -224,7 +230,8 @@ class ValidationDemoPage extends StatelessWidget {
         // At least one required
         final atLeastOneData = <String, dynamic>{'email': 'test@example.com'};
         final atLeastOneResult = crossFieldValidator.validate(atLeastOneData);
-        buf.writeln('  At least one field present: valid=${atLeastOneResult.isValid}');
+        buf.writeln(
+            '  At least one field present: valid=${atLeastOneResult.isValid}');
 
         final noneData = <String, dynamic>{};
         final noneResult = crossFieldValidator.validate(noneData);
@@ -285,7 +292,8 @@ class ValidationDemoPage extends StatelessWidget {
           'password': 'Str0ngP@ss!123',
           'passwordConfirmation': 'Str0ngP@ss!123',
         };
-        final combinedResult = await combinedValidator.validateAsync(validCombined);
+        final combinedResult =
+            await combinedValidator.validateAsync(validCombined);
         buf.writeln('  Valid combined data: valid=${combinedResult.isValid}');
 
         final invalidCombined = {
@@ -295,13 +303,15 @@ class ValidationDemoPage extends StatelessWidget {
         };
         final invalidCombinedResult =
             await combinedValidator.validateAsync(invalidCombined);
-        buf.writeln('  Invalid combined data: valid=${invalidCombinedResult.isValid}');
+        buf.writeln(
+            '  Invalid combined data: valid=${invalidCombinedResult.isValid}');
         if (invalidCombinedResult.isInvalid) {
           buf.writeln('  Sync errors: ${invalidCombinedResult.errors.length}');
           for (final e in invalidCombinedResult.errors) {
             buf.writeln('    ❌ ${e.field}: ${e.message}');
           }
-          buf.writeln('  Async errors: ${invalidCombinedResult.asyncErrors.length}');
+          buf.writeln(
+              '  Async errors: ${invalidCombinedResult.asyncErrors.length}');
           for (final e in invalidCombinedResult.asyncErrors) {
             buf.writeln('    ❌ ${e.field}: ${e.message}');
           }

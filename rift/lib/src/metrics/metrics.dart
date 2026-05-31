@@ -20,7 +20,6 @@
 ///
 library;
 
-
 /// The type of database operation being measured.
 enum OperationType {
   /// A put (create/update) operation.

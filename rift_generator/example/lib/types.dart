@@ -134,4 +134,3 @@ class NamedImports {
   @RiftField(3)
   final Map<named.NamedImportType, named.NamedImportType> namedImportTypeMap;
 }
-

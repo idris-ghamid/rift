@@ -211,5 +211,3 @@ class TestAdapter extends TypeAdapter<Test> {
       ..write(obj.b);
   }
 }
-
-

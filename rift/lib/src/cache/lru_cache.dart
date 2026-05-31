@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-
 /// A cache entry that wraps a value with optional TTL (time-to-live).
 class _CacheEntry<V> {
   V value;

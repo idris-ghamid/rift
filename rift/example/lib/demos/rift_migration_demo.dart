@@ -182,6 +182,3 @@ class RiftMigrationDemoPage extends StatelessWidget {
     );
   }
 }
-
-
-

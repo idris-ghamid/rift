@@ -107,4 +107,3 @@ extension TestRiftObjectInternal on TestRiftObject {
   @visibleForTesting
   Map<RiftList, int> get debugRiftLists => testRiftLists;
 }
-

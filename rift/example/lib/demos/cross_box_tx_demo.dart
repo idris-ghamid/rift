@@ -52,8 +52,7 @@ class CrossBoxTxDemoPage extends StatelessWidget {
             '  isActive: ${tx.isActive}, isCommitted: ${tx.isCommitted}');
 
         buf.writeln('\n--- After Transaction ---');
-        buf.writeln(
-            '  Alice: \$${(accountsBox.get('alice'))?['balance']}');
+        buf.writeln('  Alice: \$${(accountsBox.get('alice'))?['balance']}');
         buf.writeln('  Bob: \$${(accountsBox.get('bob'))?['balance']}');
         buf.writeln('  Ledger: ${ledgerBox.get('tx1')}');
 

@@ -102,5 +102,3 @@ abstract class BinaryReader {
   /// If [length] is not provided, it is read first.
   RiftList readRiftList([int? length]);
 }
-
-

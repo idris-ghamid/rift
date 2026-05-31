@@ -14,4 +14,3 @@ const baseSchema = <String, RiftSchemaType>{
     },
   ),
 };
-

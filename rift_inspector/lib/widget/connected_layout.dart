@@ -150,4 +150,3 @@ class _ConnectedLayoutState extends State<ConnectedLayout> {
     );
   }
 }
-

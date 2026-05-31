@@ -431,4 +431,3 @@ typedef HiveLogger = Logger;
 
 /// Backward compatibility alias for [RiftLoggerLevel]
 typedef HiveLoggerLevel = LoggerLevel;
-

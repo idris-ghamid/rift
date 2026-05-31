@@ -9,4 +9,3 @@ import 'package:mockito/annotations.dart';
   ],
 )
 export 'mocks.mocks.dart';
-

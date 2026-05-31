@@ -38,10 +38,7 @@ import 'package:meta/meta_meta.dart';
 ///   String email;
 /// }
 /// ```
-@Target({
-  TargetKind.field,
-  TargetKind.getter,
-})
+@Target({TargetKind.field, TargetKind.getter})
 class RiftValidation {
   /// The validation rules for this field.
   final List<RiftValidationRule> rules;
@@ -66,18 +63,11 @@ class RiftValidationRule {
   /// Custom error message.
   final String? message;
 
-  const RiftValidationRule({
-    required this.type,
-    this.value,
-    this.message,
-  });
+  const RiftValidationRule({required this.type, this.value, this.message});
 
   /// Creates a required field rule.
   factory RiftValidationRule.required({String? message}) =>
-      RiftValidationRule(
-        type: ValidationRuleType.required,
-        message: message,
-      );
+      RiftValidationRule(type: ValidationRuleType.required, message: message);
 
   /// Creates a type validation rule.
   factory RiftValidationRule.type(Type type, {String? message}) =>
@@ -112,36 +102,36 @@ class RiftValidationRule {
       );
 
   /// Creates an enum validation rule.
-  factory RiftValidationRule.enumValue(List<dynamic> values, {String? message}) =>
-      RiftValidationRule(
-        type: ValidationRuleType.enumValue,
-        value: values,
-        message: message,
-      );
+  factory RiftValidationRule.enumValue(
+    List<dynamic> values, {
+    String? message,
+  }) => RiftValidationRule(
+    type: ValidationRuleType.enumValue,
+    value: values,
+    message: message,
+  );
 
   /// Creates an email validation rule.
-  factory RiftValidationRule.email({String? message}) =>
-      RiftValidationRule(
-        type: ValidationRuleType.pattern,
-        value: r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-        message: message ?? 'Invalid email address',
-      );
+  factory RiftValidationRule.email({String? message}) => RiftValidationRule(
+    type: ValidationRuleType.pattern,
+    value: r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+    message: message ?? 'Invalid email address',
+  );
 
   /// Creates a URL validation rule.
-  factory RiftValidationRule.url({String? message}) =>
-      RiftValidationRule(
-        type: ValidationRuleType.pattern,
-        value: r'^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$',
-        message: message ?? 'Invalid URL',
-      );
+  factory RiftValidationRule.url({String? message}) => RiftValidationRule(
+    type: ValidationRuleType.pattern,
+    value:
+        r'^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$',
+    message: message ?? 'Invalid URL',
+  );
 
   /// Creates a phone number validation rule.
-  factory RiftValidationRule.phone({String? message}) =>
-      RiftValidationRule(
-        type: ValidationRuleType.pattern,
-        value: r'^[\d\+\-\(\) ]+$',
-        message: message ?? 'Invalid phone number',
-      );
+  factory RiftValidationRule.phone({String? message}) => RiftValidationRule(
+    type: ValidationRuleType.pattern,
+    value: r'^[\d\+\-\(\) ]+$',
+    message: message ?? 'Invalid phone number',
+  );
 
   /// Creates a password strength validation rule.
   factory RiftValidationRule.passwordStrength({String? message}) =>
@@ -152,52 +142,50 @@ class RiftValidationRule {
       );
 
   /// Creates a username validation rule.
-  factory RiftValidationRule.username({String? message}) =>
-      RiftValidationRule(
-        type: ValidationRuleType.pattern,
-        value: r'^[a-zA-Z0-9_]{3,20}$',
-        message: message ?? 'Username must be 3-20 alphanumeric characters',
-      );
+  factory RiftValidationRule.username({String? message}) => RiftValidationRule(
+    type: ValidationRuleType.pattern,
+    value: r'^[a-zA-Z0-9_]{3,20}$',
+    message: message ?? 'Username must be 3-20 alphanumeric characters',
+  );
 
   /// Creates a date validation rule (YYYY-MM-DD).
-  factory RiftValidationRule.date({String? message}) =>
-      RiftValidationRule(
-        type: ValidationRuleType.pattern,
-        value: r'^\d{4}-\d{2}-\d{2}$',
-        message: message ?? 'Invalid date format (YYYY-MM-DD)',
-      );
+  factory RiftValidationRule.date({String? message}) => RiftValidationRule(
+    type: ValidationRuleType.pattern,
+    value: r'^\d{4}-\d{2}-\d{2}$',
+    message: message ?? 'Invalid date format (YYYY-MM-DD)',
+  );
 
   /// Creates a UUID validation rule.
-  factory RiftValidationRule.uuid({String? message}) =>
-      RiftValidationRule(
-        type: ValidationRuleType.pattern,
-        value: r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
-        message: message ?? 'Invalid UUID format',
-      );
+  factory RiftValidationRule.uuid({String? message}) => RiftValidationRule(
+    type: ValidationRuleType.pattern,
+    value: r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
+    message: message ?? 'Invalid UUID format',
+  );
 
   /// Creates a hex color validation rule.
-  factory RiftValidationRule.hexColor({String? message}) =>
-      RiftValidationRule(
-        type: ValidationRuleType.pattern,
-        value: r'^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$',
-        message: message ?? 'Invalid hex color format',
-      );
+  factory RiftValidationRule.hexColor({String? message}) => RiftValidationRule(
+    type: ValidationRuleType.pattern,
+    value: r'^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$',
+    message: message ?? 'Invalid hex color format',
+  );
 
   /// Creates an IP address validation rule.
-  factory RiftValidationRule.ipAddress({String? message}) =>
-      RiftValidationRule(
-        type: ValidationRuleType.pattern,
-        value: r'^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$',
-        message: message ?? 'Invalid IP address',
-      );
+  factory RiftValidationRule.ipAddress({String? message}) => RiftValidationRule(
+    type: ValidationRuleType.pattern,
+    value:
+        r'^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$',
+    message: message ?? 'Invalid IP address',
+  );
 
   /// Creates a custom validation rule.
-  factory RiftValidationRule.custom(String customValidator, {String? message}) =>
-      RiftValidationRule(
-        type: ValidationRuleType.custom,
-        value: customValidator,
-        message: message,
-      );
+  factory RiftValidationRule.custom(
+    String customValidator, {
+    String? message,
+  }) => RiftValidationRule(
+    type: ValidationRuleType.custom,
+    value: customValidator,
+    message: message,
+  );
 }
 
 /// Types of validation rules for code generation.
@@ -258,9 +246,7 @@ enum ValidationRuleType {
 ///   String email;
 /// }
 /// ```
-@Target({
-  TargetKind.classType,
-})
+@Target({TargetKind.classType})
 class RiftValidationSchema {
   /// The validation schema mapping field names to rules.
   final Map<String, List<RiftValidationRule>> schema;
@@ -268,10 +254,7 @@ class RiftValidationSchema {
   /// Whether to allow additional fields not defined in the schema.
   final bool allowAdditionalFields;
 
-  const RiftValidationSchema(
-    this.schema, {
-    this.allowAdditionalFields = true,
-  });
+  const RiftValidationSchema(this.schema, {this.allowAdditionalFields = true});
 }
 
 /// Annotate a field with cross-field validation.
@@ -291,10 +274,7 @@ class RiftValidationSchema {
 ///   String passwordConfirmation;
 /// }
 /// ```
-@Target({
-  TargetKind.field,
-  TargetKind.getter,
-})
+@Target({TargetKind.field, TargetKind.getter})
 class RiftCrossField {
   /// The fields involved in this validation.
   final List<String> fields;
@@ -305,9 +285,5 @@ class RiftCrossField {
   /// Custom error message.
   final String? message;
 
-  const RiftCrossField(
-    this.fields,
-    this.validator, {
-    this.message,
-  });
+  const RiftCrossField(this.fields, this.validator, {this.message});
 }

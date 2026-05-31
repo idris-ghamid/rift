@@ -357,7 +357,7 @@
     },
     {
       "name": "rift",
-      "rootUri": "../../rift",
+      "rootUri": "file:///E:/A-Studio/.pub-cache/hosted/pub.dev/rift-1.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.8"
     },

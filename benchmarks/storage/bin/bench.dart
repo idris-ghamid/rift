@@ -71,4 +71,3 @@ String formatTime(Duration duration) {
 String formatSize(double size) {
   return '${size.toStringAsFixed(2)} MB';
 }
-

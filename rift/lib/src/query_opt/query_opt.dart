@@ -24,7 +24,6 @@
 /// ```
 library;
 
-
 /// Description of a filter in a query analysis.
 class FilterDesc {
   /// The field name.

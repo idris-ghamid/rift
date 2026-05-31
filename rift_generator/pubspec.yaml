@@ -1,6 +1,6 @@
 name: rift_generator
 description: Code generator for Rift — automatically generates TypeAdapters to store any Dart class. Supports Dart 3 Records, sealed classes, and extension types.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/idris-ghamid/rift/tree/main/rift_generator
 
 topics:

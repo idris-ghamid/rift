@@ -1,6 +1,6 @@
 name: rift_flutter
 description: Flutter integration for Rift — the next-generation NoSQL database for Flutter & Dart. Provides automatic initialization, Flutter adapters, and reactive UI support.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/idris-ghamid/rift/tree/main/rift_flutter
 
 topics:

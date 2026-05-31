@@ -97,15 +97,34 @@ Apache License 2.0
 
 ## About Author
 
-**Idris Ghamid** is a software engineer and open-source contributor specializing in Flutter, Dart, and mobile development.
+**Idris Ghamid** is a software engineer and open-source contributor specializing in Flutter, Dart, and mobile development. He creates high-performance, production-ready libraries and tools for the Flutter ecosystem.
 
-### Connect with Idris
+### Connect To idris
 
-- **GitHub**: [idrisghamid](https://github.com/idris-ghamid)
+- **Portfolio**: [idris-ghamid.linkpc.net](https://idris-ghamid.linkpc.net/)
+- **GitHub**: [idris ghamid](https://github.com/idris-ghamid)
 - **LinkedIn**: [Idris Ghamid](https://www.linkedin.com/in/idris-ghamid)
 - **Instagram**: [@idris.ghamid](https://www.instagram.com/idris.ghamid)
 - **X (Twitter)**: [@IdrisGhamid](https://x.com/IdrisGhamid)
 
 ---
 
-**Made with ❤️ by [Idris Ghamid](https://github.com/idris-ghamid)**
+## Star History
+
+<a href="https://www.star-history.com/?repos=IDRISIUMCorp%2Fal-furkan-quran-flutter-app&type=date&legend=bottom-right">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=idris-ghamid/rift&type=date&theme=dark&legend=bottom-right" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=idris-ghamid/rift&type=date&legend=bottom-right" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=idris-ghamid/rift&type=date&legend=bottom-right" />
+ </picture>
+</a>
+
+---
+
+<div align="center">
+
+**Made by [idris ghamid](https://github.com/idris-ghamid)**
+
+⭐ If Rift helps you, give it a star on [GitHub](https://github.com/idris-ghamid/rift)!
+
+</div>

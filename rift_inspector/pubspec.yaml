@@ -1,6 +1,6 @@
 name: rift_inspector
 description: DevTools inspector for Rift — visually browse, query, and edit your database at runtime.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/idris-ghamid/rift/tree/main/rift_inspector
 
 topics:

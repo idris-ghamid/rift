@@ -1109,8 +1109,9 @@ Rift is built on the excellent foundation of [Hive](https://github.com/isar/hive
 
 **Idris Ghamid** is a software engineer and open-source contributor specializing in Flutter, Dart, and mobile development. He creates high-performance, production-ready libraries and tools for the Flutter ecosystem.
 
-### Connect with Idris
+### Connect To idris
 
+- **Portfolio**: [idris-ghamid.linkpc.net](https://idris-ghamid.linkpc.net/)
 - **GitHub**: [idris ghamid](https://github.com/idris-ghamid)
 - **LinkedIn**: [Idris Ghamid](https://www.linkedin.com/in/idris-ghamid)
 - **Instagram**: [@idris.ghamid](https://www.instagram.com/idris.ghamid)

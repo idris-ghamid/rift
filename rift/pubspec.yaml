@@ -10,9 +10,6 @@ topics:
   - flutter
   - reactive
 
-funding:
-  - https://github.com/sponsors/idrisghamid
-
 environment:
   sdk: ^3.8.0
 

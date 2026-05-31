@@ -1202,7 +1202,7 @@ Rift is built on the excellent foundation of [Hive](https://github.com/isar/hive
 
 ### Connect with Idris
 
-- **GitHub**: [idrisghamid](https://github.com/idris-ghamid)
+- **GitHub**: [idris ghamid](https://github.com/idris-ghamid)
 - **LinkedIn**: [Idris Ghamid](https://www.linkedin.com/in/idris-ghamid)
 - **Instagram**: [@idris.ghamid](https://www.instagram.com/idris.ghamid)
 - **X (Twitter)**: [@IdrisGhamid](https://x.com/IdrisGhamid)

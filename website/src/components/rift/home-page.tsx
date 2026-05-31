@@ -124,6 +124,8 @@ const COMPARISON_FEATURES = [
   'Time Travel', 'Sync', 'Aggregation', 'CDC', 'Geospatial',
   'Audit Log', 'Profiler', 'Plugin System', 'Bloom Filters',
   'Graph', 'Time-Series', 'Reactive Signals', 'Pure Dart', 'Zero Native Deps',
+  'Enhanced Validation', 'Async Validation', 'Cross-Field Validation',
+  'Validation Annotations', 'Pre-built Rules',
 ];
 
 const DB_COMPARISON: Record<string, Record<string, boolean>> = {
@@ -175,6 +177,10 @@ const FEATURE_CATEGORIES: FeatureCategoryData[] = [
       { name: 'Bulk Ops', icon: Layers },
       { name: 'Typed Boxes', icon: Box },
       { name: 'Validation', icon: Check },
+      { name: 'Async Validation', icon: Timer },
+      { name: 'Cross-Field Validation', icon: GitBranch },
+      { name: 'Pre-built Rules', icon: Sparkles },
+      { name: 'Validation Annotations', icon: Code2 },
       { name: 'Middleware', icon: Braces },
       { name: 'Partitioning', icon: Layers },
       { name: 'Aggregation', icon: Sigma },

@@ -269,3 +269,131 @@
 .arch-layer:hover {
   transform: translateX(4px);
 }
+
+/* Minimalist improvements */
+.minimalist-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.minimalist-section {
+  @apply py-16 md:py-24;
+}
+
+.minimalist-heading {
+  @apply text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight;
+}
+
+.minimalist-subheading {
+  @apply text-xl md:text-2xl font-semibold tracking-tight;
+}
+
+.minimalist-text {
+  @apply text-muted-foreground leading-relaxed;
+}
+
+/* Improved focus states */
+*:focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+}
+
+/* Improved button styles */
+.btn-primary {
+  @apply bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-all duration-200;
+}
+
+/* Improved card styles */
+.minimalist-card {
+  @apply border border-border/50 bg-card/50 backdrop-blur-sm rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:border-border;
+}
+
+/* Improved typography */
+.prose {
+  @apply max-w-none;
+}
+
+.prose h1 {
+  @apply text-3xl font-bold mb-6;
+}
+
+.prose h2 {
+  @apply text-2xl font-bold mb-4 mt-8;
+}
+
+.prose h3 {
+  @apply text-xl font-bold mb-3 mt-6;
+}
+
+.prose p {
+  @apply mb-4 leading-relaxed;
+}
+
+.prose code {
+  @apply bg-muted/50 px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+.prose pre {
+  @apply bg-muted/50 rounded-lg p-4 overflow-x-auto mb-4;
+}
+
+.prose ul {
+  @apply list-disc list-inside mb-4 space-y-2;
+}
+
+.prose ol {
+  @apply list-decimal list-inside mb-4 space-y-2;
+}
+
+.prose a {
+  @apply text-primary hover:underline;
+}
+
+/* Improved spacing */
+.section-spacing {
+  @apply py-12 md:py-16 lg:py-20;
+}
+
+/* Improved grid layouts */
+.grid-responsive {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.grid-responsive-2 {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+}
+
+/* Improved badges */
+.badge-primary {
+  @apply px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium;
+}
+
+.badge-secondary {
+  @apply px-3 py-1 rounded-full bg-secondary/50 text-secondary-foreground text-sm font-medium;
+}
+
+/* Improved divider */
+.divider {
+  @apply border-t border-border/50 my-8;
+}
+
+/* Improved skeleton loading */
+.skeleton {
+  @apply bg-muted/50 animate-pulse rounded;
+}
+
+/* Improved transitions */
+.transition-smooth {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Improved shadows */
+.shadow-soft {
+  @apply shadow-lg shadow-primary/10;
+}
+
+.shadow-glow {
+  @apply shadow-2xl shadow-primary/20;
+}

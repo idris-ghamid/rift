@@ -68,8 +68,12 @@ export default function AboutPage() {
         <AnimateOnScroll className="text-center mb-16">
           {/* Avatar */}
           <div className="mb-8 flex justify-center">
-            <div className="w-28 h-28 rounded-full bg-gradient-to-br from-apple-blue to-apple-purple flex items-center justify-center shadow-xl shadow-primary/20">
-              <span className="text-4xl font-bold text-white">IG</span>
+            <div className="w-28 h-28 rounded-full bg-gradient-to-br from-apple-blue to-apple-purple flex items-center justify-center shadow-xl shadow-primary/20 overflow-hidden">
+              <img
+                src="https://github.com/idris-ghamid.png"
+                alt="Idris Ghamid"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
 
@@ -159,9 +163,13 @@ export default function AboutPage() {
           <Card className="border-border/30 bg-card/50 backdrop-blur-sm overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-apple-purple/5" />
             <CardContent className="p-8 relative z-10">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-apple-blue to-apple-purple flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">ID</span>
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-apple-blue to-apple-purple flex items-center justify-center overflow-hidden shadow-lg">
+                  <img
+                    src="https://github.com/IDRISIUMCorp.png"
+                    alt="IDRISIUM Corp"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div>
                   <h2 className="text-2xl font-semibold">IDRISIUM Corp</h2>

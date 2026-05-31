@@ -31,13 +31,14 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Idris Ghamid" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/favicon.svg",
   },
   openGraph: {
     title: "Rift — The next-generation NoSQL database for Flutter & Dart",
     description:
       "Pure Dart. Blazing fast. Reactive queries. Zero native dependencies.",
     type: "website",
+    url: "https://rift-lib.vercel.app",
   },
   twitter: {
     card: "summary_large_image",

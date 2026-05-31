@@ -1122,8 +1122,6 @@ If you find Rift useful, consider [sponsoring the project](https://github.com/sp
 
 <div align="center">
 
-**Made with ❤️ by [Idris Ghamid](https://github.com/idris-ghamid)**
-
-⭐ If Rift helps you, give it a star on [GitHub](https://github.com/idris-ghamid/rift)!
+**Made by [idris ghamid](https://github.com/idris-ghamid)**
 
 </div>

@@ -13,6 +13,8 @@
 [![Dart SDK](https://img.shields.io/badge/dart-%5E3.8.0-blue.svg)](https://dart.dev)
 [![Flutter](https://img.shields.io/badge/flutter-%5E3.27.0-cyan.svg)](https://flutter.dev)
 
+lib WebSite https://rift-lib.vercel.app/
+
 **Rift through your data** ⚡
 
 </div>

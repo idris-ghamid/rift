@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Database, Save, Get, Search, ArrowRight } from 'lucide-react';
+import { Database, Save, Download, Search, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -58,7 +58,7 @@ export default function QuickStart() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Get className="w-5 h-5 text-primary" />
+            <Download className="w-5 h-5 text-primary" />
             Step 3: Get Data
           </CardTitle>
         </CardHeader>

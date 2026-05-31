@@ -6,6 +6,8 @@
 
 DevTools inspector for [Rift](https://github.com/idris-ghamid/rift) — visually browse, query, and edit your database at runtime.
 
+[lib WebSite](https://rift-lib.vercel.app/)
+
 ## Features
 
 - **Visual Box Browser** — Browse all boxes and their contents

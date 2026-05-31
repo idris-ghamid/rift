@@ -11,6 +11,8 @@
 [![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS%20%7C%20Web%20%7C%20Windows%20%7C%20macOS%20%7C%20Linux-orange.svg)](https://pub.dev/packages/rift)
 [![Pure Dart](https://img.shields.io/badge/pure-Dart%20%F0%9F%92%9C-blueviolet.svg)](https://dart.dev)
 
+[lib WebSite](https://rift-lib.vercel.app/)
+
 **Rift through your data** ⚡
 
 </div>

@@ -5,6 +5,8 @@
 
 Code generator for [Rift](https://github.com/idris-ghamid/rift) — automatically generates TypeAdapters to store any Dart class.
 
+[lib WebSite](https://rift-lib.vercel.app/)
+
 ## Features
 
 - **Auto-generated TypeAdapters** — No manual serialization code

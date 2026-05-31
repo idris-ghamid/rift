@@ -5,6 +5,8 @@
 
 Flutter integration for [Rift](https://github.com/idris-ghamid/rift) — the next-generation NoSQL database for Flutter & Dart.
 
+[lib WebSite](https://rift-lib.vercel.app/)
+
 ## Features
 
 - **Easy Initialization** — `Rift.initFlutter()` sets up the storage path automatically

@@ -1,5 +1,5 @@
 name: rift
-description: ⚡ Rift — The next-generation NoSQL database for Flutter & Dart. Pure Dart, blazing fast, reactive queries, and zero native dependencies.
+description: Rift — The next-generation NoSQL database for Flutter & Dart. Pure Dart, blazing fast, reactive queries, and zero native dependencies.
 version: 1.0.0
 homepage: https://github.com/idris-ghamid/rift
 
